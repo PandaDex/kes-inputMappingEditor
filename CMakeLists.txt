@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
-project(InputMapEditor VERSION 1.0 LANGUAGES CXX)
+project(kesInputEditor VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
-set(Qt6_DIR "F:\\Qt\\6.11.2\\msvc2022_64\\lib\\cmake\\Qt6")
+if(NOT Qt6_DIR)
+    set(Qt6_DIR "F:\\Qt\\6.11.3\\msvc2022_64\\lib\\cmake\\Qt6")
+endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
@@ -32,22 +34,9 @@ if(MSVC)
     target_compile_options(imapcore PUBLIC /utf-8 /W3)
 endif()
 
-add_executable(InputMapEditor WIN32 MACOSX_BUNDLE src/main.cpp)
-target_link_libraries(InputMapEditor PRIVATE imapcore)
+add_executable(kesInputEditor WIN32 MACOSX_BUNDLE src/main.cpp)
+target_link_libraries(kesInputEditor PRIVATE imapcore)
 
 if(WIN32)
-target_sources(InputMapEditor PRIVATE resource/inputMappingEditor.rc)
-    
-    find_program(WINDEPLOYQT_EXECUTABLE windeployqt6
-            HINTS "${Qt6_DIR}/../../../bin"
-    )
-
-    if(WINDEPLOYQT_EXECUTABLE)
-        add_custom_command(TARGET InputMapEditor POST_BUILD
-                COMMAND "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:InputMapEditor>"
-                COMMENT "Deploying Qt dependencies with windeployqt6"
-        )
-    else()
-        message(WARNING "windeployqt6 not found; Qt deployment skipped")
-    endif()
+target_sources(kesInputEditor PRIVATE resource/inputMappingEditor.rc)
 endif()
