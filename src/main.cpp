@@ -5,6 +5,8 @@
 
 int main(int argc, char** argv)
 {
+    // Qt's native Windows file dialogs keep the main thread blocked for seconds after closing.
+    QApplication::setAttribute(Qt::AA_DontUseNativeDialogs);
     QApplication app(argc, argv);
     QApplication::setOrganizationName(QStringLiteral("kes"));
     QApplication::setApplicationName(QStringLiteral("InputMapEditor"));
